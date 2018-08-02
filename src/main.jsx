@@ -23,7 +23,7 @@
         onClick={() => props.onClick({ raise: props.name })}
         onContextMenu={(e) => { props.onClick({ lower: props.name }); e.preventDefault(); }} />
 
-    const ItemSlot = _styled.div`
+    const Slot = _styled.div`
       width: 64px;
       height: 64px;
       position: relative;
@@ -38,7 +38,7 @@
 
     const SplitItems = (props) => {
         const { left_name, left_value, right_name, right_value } = props;
-        return <ItemSlot>
+        return <Slot>
           <SplitItem
             className={classNames(left_name, left_value && `${left_name}--active`)}
             active={left_value}
@@ -47,17 +47,17 @@
             className={classNames(right_name, left_value && `${right_name}--active`)}
             active={right_value}
             onClick={() => props.onClick(right_name)} />
-        </ItemSlot>;
+        </Slot>;
     }
 
-    const BottomItem = StyledItem.extend`
+    const BaseItem = StyledItem.extend`
       position: absolute;
     `;
-    
+
     const StackedItems = (props) => {
         const { top_name, top_value, bottom_name, bottom_value } = props;
-        return <ItemSlot>
-          <BottomItem
+        return <Slot>
+          <BaseItem
             className={classNames(bottom_name, bottom_value && `${bottom_name}--active`)}
             active={bottom_value}
             onClick={() => props.onClick(bottom_name)} />
@@ -65,14 +65,43 @@
             className={classNames(top_name, top_value && `${top_name}--active`)}
             active={top_value}
             onClick={() => props.onClick(top_name)} />
-        </ItemSlot>;
+        </Slot>;
     }
 
+    const Prize = _styled.div`
+      width: 32px;
+      height: 32px;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+      filter: contrast(${props => props.active ? 100 : 80}%)
+              brightness(${props => props.active ? 100 : 50}%)
+              opacity(${props => !props.assumed ? 100 : !props.active ? 80 : 60}%);
+    `;
+
+    const Z3Boss = (props) => {
+        const name = props.name;
+        const { complete, prize } = props.value;
+        return <Slot>
+          <BaseItem
+            className={name}
+            active={!complete}
+            onClick={() => props.onComplete(name)} />
+          <Prize
+            className={prize}
+            active={complete}
+            assumed={props.assumed && prize === 'crystal'}
+            onClick={() => props.onPrize({ raise: name })}
+            onContextMenu={(e) => { props.onPrize({ lower: name }); e.preventDefault(); }} />
+        </Slot>;
+    };
+
     class App extends React.Component {
-        state = { items: items() }
+        state = { items: items(), bosses: bosses() }
         
         render() {
             const items = this.state.items;
+            const bosses = this.state.bosses;
             return <React.Fragment>
               <Item
                 name="bow"
@@ -90,6 +119,18 @@
                 top_name="shovel" top_value={items.shovel}
                 bottom_name="flute" bottom_value={items.flute}
                 onClick={this.toggle} />
+              <Z3Boss
+                name="vitreous"
+                value={bosses.vitreous}
+                assumed={false}
+                onComplete={this.complete}
+                onPrize={this.prize} />
+              <Z3Boss
+                name="trinexx"
+                value={bosses.trinexx}
+                assumed={true}
+                onComplete={this.complete}
+                onPrize={this.prize} />
             </React.Fragment>;
         }
 
@@ -105,7 +146,29 @@
             const modulo = 1 + items.limit[name];
             this.setState({ items: { ...items, [name]: (items[name] + modulo + delta) % modulo } });
         }
+
+        complete = (name) => {
+            const bosses = this.state.bosses;
+            const boss = bosses[name];
+            this.setState({ bosses: { ...bosses, [name]: { ...boss, complete: !boss.complete } } });
+        }
+
+        prize = ({ raise, lower }) => {
+            const name = raise || lower;
+            const delta = raise ? 1 : -1;
+            const bosses = this.state.bosses;
+            const boss = bosses[name];
+            const index = prize_order.indexOf(boss.prize);
+            const modulo = prize_order.length;
+            this.setState({ bosses: {
+                ...bosses, [name]: {
+                    ...boss, prize: prize_order[(index + modulo + delta) % modulo]
+                }
+            } });
+        }
     }
+
+    const prize_order = ['crystal', 'pendant', 'pendant-green', 'crystal-red'];
 
     const items = () => {
         return {
@@ -118,6 +181,13 @@
             limit: {
               glove: 2
             }
+        };
+    };
+
+    const bosses = () => {
+        return {
+            vitreous: { complete: false, prize: 'crystal-red' },
+            trinexx: { complete: false, prize: 'crystal' }
         };
     };
 
