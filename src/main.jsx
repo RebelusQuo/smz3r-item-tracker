@@ -68,6 +68,37 @@
         </Slot>;
     }
 
+    const StyledAmmoItem = StyledItem.extend`
+      display: table;
+    `;
+    const OutlinedText = _styled.span`
+      display: table-cell;
+      font-weight: bold;
+      text-shadow:
+        -2px -2px black,  0px -2px black,
+         2px -2px black,  2px  0px black,
+         2px  2px black,  0px  2px black,
+        -2px  2px black, -2px  0px black;
+      -webkit-user-select: none;
+         -moz-user-select: none;
+              user-select: none;
+    `;
+    const AmmoText = OutlinedText.extend`
+      color: white;
+      font-size: 24px;
+      text-align: center;
+      vertical-align: bottom;
+    `;
+
+    const AmmoItem = (props) =>
+      <StyledAmmoItem
+        className={props.name}
+        active={props.value}
+        onClick={() => props.onClick({ raise: props.name })}
+        onContextMenu={(e) => { props.onClick({ lower: props.name }); e.preventDefault(); }}>
+        {props.value ? <AmmoText>{props.value * 5}</AmmoText> : null}
+      </StyledAmmoItem>;
+
     const Prize = _styled.div`
       width: 32px;
       height: 32px;
@@ -168,6 +199,18 @@
                 top_name="shovel" top_value={items.shovel}
                 bottom_name="flute" bottom_value={items.flute}
                 onClick={this.toggle} />
+              <AmmoItem
+                name="missile"
+                value={items.missile}
+                onClick={this.level} />
+              <AmmoItem
+                name="super"
+                value={items.super}
+                onClick={this.level} />
+              <AmmoItem
+                name="powerbomb"
+                value={items.powerbomb}
+                onClick={this.level} />
               <Z3Boss
                 name="vitreous"
                 value={bosses.vitreous}
@@ -230,8 +273,14 @@
             powder: false,
             shovel: false,
             flute: false,
+            missile: 0,
+            super: 0,
+            powerbomb: 0,
             limit: {
-              glove: 2
+              glove: 2,
+              missile: 40,
+              super: 17,
+              powerbomb: 10
             }
         };
     };

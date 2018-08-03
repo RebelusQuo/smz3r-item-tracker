@@ -3,7 +3,10 @@
   padding: 0;
   box-sizing: border-box;
 }
-body { background-color: black; }
+body {
+  background-color: black;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
 .bow { background-image: url(images/lttp/bow.png); }
 .sword { background-image: url(images/lttp/sword1.png); }
