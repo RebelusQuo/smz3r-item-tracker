@@ -68,7 +68,7 @@
         </Slot>;
     }
 
-    const StyledAmmoItem = StyledItem.extend`
+    const TextItem = StyledItem.extend`
       display: table;
     `;
     const OutlinedText = _styled.span`
@@ -91,13 +91,29 @@
     `;
 
     const AmmoItem = (props) =>
-      <StyledAmmoItem
+      <TextItem
         className={props.name}
         active={props.value}
         onClick={() => props.onClick({ raise: props.name })}
         onContextMenu={(e) => { props.onClick({ lower: props.name }); e.preventDefault(); }}>
         {props.value ? <AmmoText>{props.value * 5}</AmmoText> : null}
-      </StyledAmmoItem>;
+      </TextItem>;
+
+    const TankText = OutlinedText.extend`
+      color: white;
+      font-size: 24px;
+      text-align: right;
+      vertical-align: bottom;
+    `;
+
+    const TankItem = (props) =>
+      <TextItem
+        className="tank"
+        active={props.value}
+        onClick={() => props.onClick({ raise: 'tank' })}
+        onContextMenu={(e) => { props.onClick({ lower: 'tank' }); e.preventDefault(); }}>
+        {props.value ? <TankText>{props.value}</TankText> : null}
+      </TextItem>
 
     const Prize = _styled.div`
       width: 32px;
@@ -211,6 +227,9 @@
                 name="powerbomb"
                 value={items.powerbomb}
                 onClick={this.level} />
+              <TankItem
+                value={items.tank}
+                onClick={this.level} />
               <Z3Boss
                 name="vitreous"
                 value={bosses.vitreous}
@@ -276,11 +295,13 @@
             missile: 0,
             super: 0,
             powerbomb: 0,
+            tank: 0,
             limit: {
               glove: 2,
               missile: 40,
               super: 17,
-              powerbomb: 10
+              powerbomb: 10,
+              tank: 18
             }
         };
     };
