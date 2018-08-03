@@ -96,6 +96,55 @@
         </Slot>;
     };
 
+    const StyledGoldenFour = _styled.div`
+      width: 128px;
+      height: 128px;
+      position: relative;
+    `;
+    const Statue = StyledGoldenFour.extend`
+      position: absolute;
+    `;
+    const RidleyTarget = _styled.div`
+      width: 128px;
+      height: 58px;
+      position: absolute;
+    `;
+    const KraidTarget = _styled.div`
+      width: 46px;
+      height: 70px;
+      bottom: 0;
+      position: absolute;
+    `;
+    const PhantoonTarget = _styled.div`
+      width: 42px;
+      height: 70px;
+      left: 46px;
+      bottom: 0;
+      position: absolute;
+    `;
+    const DraygonTarget = _styled.div`
+      width: 40px;
+      height: 70px;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+    `;
+
+    const GoldenFour = (props) => {
+        const { ridley, kraid, phantoon, draygon } = props.value;
+        return <StyledGoldenFour>
+          <Statue className="golden-four" />
+          {ridley.complete && <Statue className="golden-four---ridley" />}
+          {kraid.complete && <Statue className="golden-four---kraid" />}
+          {phantoon.complete && <Statue className="golden-four---phantoon" />}
+          {draygon.complete && <Statue className="golden-four---draygon" />}
+          <RidleyTarget onClick={() => props.onClick('ridley')} />
+          <KraidTarget onClick={() => props.onClick('kraid')} />
+          <PhantoonTarget onClick={() => props.onClick('phantoon')} />
+          <DraygonTarget onClick={() => props.onClick('draygon')} />
+        </StyledGoldenFour>;
+    };
+
     class App extends React.Component {
         state = { items: items(), bosses: bosses() }
         
@@ -131,6 +180,9 @@
                 assumed={true}
                 onComplete={this.complete}
                 onPrize={this.prize} />
+              <GoldenFour
+                value={bosses}
+                onClick={this.complete} />
             </React.Fragment>;
         }
 
@@ -187,7 +239,11 @@
     const bosses = () => {
         return {
             vitreous: { complete: false, prize: 'crystal-red' },
-            trinexx: { complete: false, prize: 'crystal' }
+            trinexx: { complete: false, prize: 'crystal' },
+            ridley: { complete: false },
+            kraid: { complete: false },
+            phantoon: { complete: false },
+            draygon: { complete: false }
         };
     };
 
