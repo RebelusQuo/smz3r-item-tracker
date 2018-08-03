@@ -192,6 +192,18 @@
         </StyledGoldenFour>;
     };
 
+    const GridRow = _styled.div`
+      &:before,
+      &:after { content: " "; display: table; }
+      &:after { clear: both; }
+    `;
+    const GridCell = _styled.div`
+      position: relative; float: left;
+    `;
+    const GoldenFourCell = GridCell.extend`
+      padding: 0 32px;
+    `;
+
     class App extends React.Component {
         state = { items: items(), bosses: bosses() }
         
@@ -199,52 +211,119 @@
             const items = this.state.items;
             const bosses = this.state.bosses;
             return <React.Fragment>
-              <Item
-                name="bow"
-                value={items.bow}
-                onClick={this.toggle} />
-              <LeveledItem
-                name="glove"
-                value={items.glove}
-                onClick={this.level} />
-              <SplitItems
-                left_name="mushroom" left_value={items.mushroom}
-                right_name="powder" right_value={items.powder}
-                onClick={this.toggle} />
-              <StackedItems
-                top_name="shovel" top_value={items.shovel}
-                bottom_name="flute" bottom_value={items.flute}
-                onClick={this.toggle} />
-              <AmmoItem
-                name="missile"
-                value={items.missile}
-                onClick={this.level} />
-              <AmmoItem
-                name="super"
-                value={items.super}
-                onClick={this.level} />
-              <AmmoItem
-                name="powerbomb"
-                value={items.powerbomb}
-                onClick={this.level} />
-              <TankItem
-                value={items.tank}
-                onClick={this.level} />
-              <Z3Boss
-                name="vitreous"
-                value={bosses.vitreous}
-                assumed={false}
-                onComplete={this.complete}
-                onPrize={this.prize} />
-              <Z3Boss
-                name="trinexx"
-                value={bosses.trinexx}
-                assumed={true}
-                onComplete={this.complete}
-                onPrize={this.prize} />
-              <GoldenFour
-                value={bosses}
-                onClick={this.complete} />
+              <GridRow>
+                <GridCell>
+                  <GridRow>
+                    <GridCell><Item name="bow" value={items.bow} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="somaria" value={items.somaria} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="hookshot" value={items.hookshot} onClick={this.toggle} /></GridCell>
+                    <GridCell>
+                      <SplitItems
+                        left_name="mushroom" left_value={items.mushroom}
+                        right_name="powder" right_value={items.powder} onClick={this.toggle} />
+                    </GridCell>
+                    <GridCell><Item name="book" value={items.book} onClick={this.toggle} /></GridCell>
+                  </GridRow>
+                  <GridRow>
+                    <GridCell><Item name="firerod" value={items.firerod} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="icerod" value={items.icerod} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="bombos" value={items.bombos} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="ether" value={items.ether} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="quake" value={items.quake} onClick={this.toggle} /></GridCell>
+                  </GridRow>
+                  <GridRow>
+                    <GridCell><Item name="lamp" value={items.lamp} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="hammer" value={items.hammer} onClick={this.toggle} /></GridCell>
+                    <GridCell>
+                      <StackedItems
+                        top_name="shovel" top_value={items.shovel}
+                        bottom_name="flute" bottom_value={items.flute} onClick={this.toggle} />
+                    </GridCell>
+                    <GridCell><StackedItems
+                      top_name="byrna" top_value={items.byrna}
+                      bottom_name="cape" bottom_value={items.cape} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="mirror" value={items.mirror} onClick={this.toggle} /></GridCell>
+                  </GridRow>
+                  <GridRow>
+                    <GridCell>
+                      <StackedItems
+                        top_name="halfmagic" top_value={items.halfmagic}
+                        bottom_name="bottle" bottom_value={items.bottle} onClick={this.toggle} />
+                    </GridCell>
+                    <GridCell><Item name="boots" value={items.boots} onClick={this.toggle} /></GridCell>
+                    <GridCell><LeveledItem name="glove" value={items.glove} onClick={this.level} /></GridCell>
+                    <GridCell><Item name="flippers" value={items.flippers} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="moonpearl" value={items.moonpearl} onClick={this.toggle} /></GridCell>
+                  </GridRow>
+                </GridCell>
+                <GridCell>
+                  <GridRow>
+                    <GridCell><Z3Boss name="armos" value={bosses.armos} assumed={true}
+                      onComplete={this.complete} onPrize={this.prize} /></GridCell>
+                    <GridCell><Z3Boss name="lanmolas" value={bosses.lanmolas} assumed={true}
+                      onComplete={this.complete} onPrize={this.prize} /></GridCell>
+                    <GridCell><Z3Boss name="moldorm" value={bosses.moldorm} assumed={true}
+                      onComplete={this.complete} onPrize={this.prize} /></GridCell>
+                  </GridRow>
+                  <GridRow>
+                    <GridCell><Z3Boss name="helmasaur" value={bosses.helmasaur} assumed={true}
+                      onComplete={this.complete} onPrize={this.prize} /></GridCell>
+                    <GridCell><Z3Boss name="arrghus" value={bosses.arrghus} assumed={true}
+                      onComplete={this.complete} onPrize={this.prize} /></GridCell>
+                    <GridCell><Z3Boss name="mothula" value={bosses.mothula} assumed={true}
+                      onComplete={this.complete} onPrize={this.prize} /></GridCell>
+                  </GridRow>
+                  <GridRow>
+                    <GridCell><Item name="agahnim" value={items.agahnim} onClick={this.toggle} /></GridCell>
+                    <GridCell><Z3Boss name="blind" value={bosses.blind} assumed={true}
+                      onComplete={this.complete} onPrize={this.prize} /></GridCell>
+                    <GridCell><Z3Boss name="kholdstare" value={bosses.kholdstare} assumed={true}
+                      onComplete={this.complete} onPrize={this.prize} /></GridCell>
+                  </GridRow>
+                  <GridRow>
+                    <GridCell><LeveledItem name="sword" value={items.sword} onClick={this.level} /></GridCell>
+                    <GridCell><Z3Boss name="vitreous" value={bosses.vitreous} assumed={true}
+                      onComplete={this.complete} onPrize={this.prize} /></GridCell>
+                    <GridCell><Z3Boss name="trinexx" value={bosses.trinexx} assumed={true}
+                      onComplete={this.complete} onPrize={this.prize} /></GridCell>
+                  </GridRow>
+                </GridCell>
+              </GridRow>
+              <GridRow>
+                <GridCell>
+                  <GridRow>
+                    <GridCell><Item name="charge" value={items.charge} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="ice" value={items.ice} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="wave" value={items.wave} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="plasma" value={items.plasma} onClick={this.toggle} /></GridCell>
+                    <GridCell><TankItem value={items.tank} onClick={this.level} /></GridCell>
+                  </GridRow>
+                  <GridRow>
+                    <GridCell><Item name="varia" value={items.varia} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="morph" value={items.morph} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="spring" value={items.spring} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="hijump" value={items.hijump} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="speed" value={items.speed} onClick={this.toggle} /></GridCell>
+                  </GridRow>
+                  <GridRow>
+                    <GridCell><Item name="gravity" value={items.gravity} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="bomb" value={items.bomb} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="screw" value={items.screw} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="space" value={items.space} onClick={this.toggle} /></GridCell>
+                    <GridCell><Item name="grapple" value={items.grapple} onClick={this.toggle} /></GridCell>
+                  </GridRow>
+                </GridCell>
+                <GridCell>
+                  <GridRow>
+                    <GridCell><AmmoItem name="missile" value={items.missile} onClick={this.level} /></GridCell>
+                    <GridCell><AmmoItem name="super" value={items.super} onClick={this.level} /></GridCell>
+                    <GridCell><AmmoItem name="powerbomb" value={items.powerbomb} onClick={this.level} /></GridCell>
+                  </GridRow>
+                  <GridRow>
+                    <GoldenFourCell><GoldenFour value={bosses} onClick={this.complete} /></GoldenFourCell>
+                  </GridRow>
+                </GridCell>
+              </GridRow>
             </React.Fragment>;
         }
 
@@ -287,28 +366,71 @@
     const items = () => {
         return {
             bow: false,
-            glove: 0,
+            somaria: false,
+            hookshot: false,
             mushroom: false,
             powder: false,
+            book: false,
+            firerod: false,
+            icerod: false,
+            bombos: false,
+            ether: false,
+            quake: false,
+            lamp: false,
+            hammer: false,
             shovel: false,
             flute: false,
+            byrna: false,
+            cape: false,
+            mirror: false,
+            halfmagic: false,
+            bottle: false,
+            boots: false,
+            glove: 0,
+            flippers: false,
+            moonpearl: false,
+            agahnim: false,
+            sword: 0,
+            charge: false,
+            ice: false,
+            wave: false,
+            plasma: false,
+            tank: 0,
+            varia: false,
+            gravity: false,
+            morph: false,
+            bomb: false,
+            spring: false,
+            screw: false,
+            hijump: false,
+            space: false,
+            speed: false,
+            grapple: false,
             missile: 0,
             super: 0,
             powerbomb: 0,
-            tank: 0,
             limit: {
               glove: 2,
+              sword: 2,
+              tank: 18,
               missile: 40,
               super: 17,
-              powerbomb: 10,
-              tank: 18
+              powerbomb: 10
             }
         };
     };
 
     const bosses = () => {
         return {
-            vitreous: { complete: false, prize: 'crystal-red' },
+            armos: { complete: false, prize: 'crystal' },
+            lanmolas: { complete: false, prize: 'crystal' },
+            moldorm: { complete: false, prize: 'crystal' },
+            helmasaur: { complete: false, prize: 'crystal' },
+            arrghus: { complete: false, prize: 'crystal' },
+            mothula: { complete: false, prize: 'crystal' },
+            blind: { complete: false, prize: 'crystal' },
+            kholdstare: { complete: false, prize: 'crystal' },
+            vitreous: { complete: false, prize: 'crystal' },
             trinexx: { complete: false, prize: 'crystal' },
             ridley: { complete: false },
             kraid: { complete: false },
