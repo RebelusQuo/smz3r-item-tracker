@@ -68,7 +68,8 @@
         </Slot>;
     }
 
-    const TextItem = StyledItem.extend`
+    const TextHolder = Slot.extend`
+      position: absolute;
       display: table;
     `;
     const OutlinedText = _styled.span`
@@ -82,6 +83,27 @@
       -webkit-user-select: none;
          -moz-user-select: none;
               user-select: none;
+    `;
+    const MedallionText = OutlinedText.extend`
+      color: white;
+      font-size: 18px;
+      text-align: ${props => props.second ? 'right' : 'left'};
+      vertical-align: ${props => props.second ? 'bottom' : 'top'};
+    `;
+
+    const MedallionItem = (props) =>
+      <Slot
+        onClick={() => props.onClick(props.name)}
+        onContextMenu={(e) => { props.onAccess(props.name); e.preventDefault(); }}>
+        <BaseItem
+          className={classNames(props.name, props.name && `${props.name}--active`)}
+          active={props.value} />
+        {props.access.turtle && <TextHolder><MedallionText>TR</MedallionText></TextHolder>}
+        {props.access.mire && <TextHolder><MedallionText second={true}>MM</MedallionText></TextHolder>}
+      </Slot>;
+
+    const TextItem = StyledItem.extend`
+      display: table;
     `;
     const AmmoText = OutlinedText.extend`
       color: white;
@@ -205,11 +227,12 @@
     `;
 
     class App extends React.Component {
-        state = { items: items(), bosses: bosses() }
+        state = { items: items(), bosses: bosses(), medallions: medallions() }
         
         render() {
             const items = this.state.items;
             const bosses = this.state.bosses;
+            const medallions = this.state.medallions;
             return <React.Fragment>
               <GridRow>
                 <GridCell>
@@ -227,9 +250,18 @@
                   <GridRow>
                     <GridCell><Item name="firerod" value={items.firerod} onClick={this.toggle} /></GridCell>
                     <GridCell><Item name="icerod" value={items.icerod} onClick={this.toggle} /></GridCell>
-                    <GridCell><Item name="bombos" value={items.bombos} onClick={this.toggle} /></GridCell>
-                    <GridCell><Item name="ether" value={items.ether} onClick={this.toggle} /></GridCell>
-                    <GridCell><Item name="quake" value={items.quake} onClick={this.toggle} /></GridCell>
+                    <GridCell>
+                      <MedallionItem
+                        name="bombos" value={items.bombos} access={medallions.bombos}
+                        onClick={this.toggle} onAccess={this.medallion} /></GridCell>
+                    <GridCell>
+                      <MedallionItem
+                        name="ether" value={items.ether} access={medallions.ether}
+                        onClick={this.toggle} onAccess={this.medallion} /></GridCell>
+                    <GridCell>
+                      <MedallionItem
+                        name="quake" value={items.quake} access={medallions.quake}
+                        onClick={this.toggle} onAccess={this.medallion} /></GridCell>
                   </GridRow>
                   <GridRow>
                     <GridCell><Item name="lamp" value={items.lamp} onClick={this.toggle} /></GridCell>
@@ -340,6 +372,17 @@
             this.setState({ items: { ...items, [name]: (items[name] + modulo + delta) % modulo } });
         }
 
+        medallion = (name) => {
+            const medallions = this.state.medallions;
+            const medallion = medallions[name];
+            this.setState({ medallions: {
+              ...medallions, [name]: {
+                turtle: !medallion.turtle,
+                mire: medallion.turtle != medallion.mire
+              }
+            } });
+        }
+
         complete = (name) => {
             const bosses = this.state.bosses;
             const boss = bosses[name];
@@ -436,6 +479,14 @@
             kraid: { complete: false },
             phantoon: { complete: false },
             draygon: { complete: false }
+        };
+    };
+
+    const medallions = () => {
+        return {
+            bombos: {},
+            ether: {},
+            quake: {}
         };
     };
 
