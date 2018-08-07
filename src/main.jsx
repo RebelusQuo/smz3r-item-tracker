@@ -233,6 +233,7 @@
             const items = this.state.items;
             const bosses = this.state.bosses;
             const medallions = this.state.medallions;
+            const assumed = this.assumed();
             return <React.Fragment>
               <GridRow>
                 <GridCell>
@@ -290,33 +291,33 @@
                 </GridCell>
                 <GridCell>
                   <GridRow>
-                    <GridCell><Z3Boss name="armos" value={bosses.armos} assumed={true}
+                    <GridCell><Z3Boss name="armos" value={bosses.armos} assumed={assumed}
                       onComplete={this.complete} onPrize={this.prize} /></GridCell>
-                    <GridCell><Z3Boss name="lanmolas" value={bosses.lanmolas} assumed={true}
+                    <GridCell><Z3Boss name="lanmolas" value={bosses.lanmolas} assumed={assumed}
                       onComplete={this.complete} onPrize={this.prize} /></GridCell>
-                    <GridCell><Z3Boss name="moldorm" value={bosses.moldorm} assumed={true}
+                    <GridCell><Z3Boss name="moldorm" value={bosses.moldorm} assumed={assumed}
                       onComplete={this.complete} onPrize={this.prize} /></GridCell>
                   </GridRow>
                   <GridRow>
-                    <GridCell><Z3Boss name="helmasaur" value={bosses.helmasaur} assumed={true}
+                    <GridCell><Z3Boss name="helmasaur" value={bosses.helmasaur} assumed={assumed}
                       onComplete={this.complete} onPrize={this.prize} /></GridCell>
-                    <GridCell><Z3Boss name="arrghus" value={bosses.arrghus} assumed={true}
+                    <GridCell><Z3Boss name="arrghus" value={bosses.arrghus} assumed={assumed}
                       onComplete={this.complete} onPrize={this.prize} /></GridCell>
-                    <GridCell><Z3Boss name="mothula" value={bosses.mothula} assumed={true}
+                    <GridCell><Z3Boss name="mothula" value={bosses.mothula} assumed={assumed}
                       onComplete={this.complete} onPrize={this.prize} /></GridCell>
                   </GridRow>
                   <GridRow>
                     <GridCell><Item name="agahnim" value={items.agahnim} onClick={this.toggle} /></GridCell>
-                    <GridCell><Z3Boss name="blind" value={bosses.blind} assumed={true}
+                    <GridCell><Z3Boss name="blind" value={bosses.blind} assumed={assumed}
                       onComplete={this.complete} onPrize={this.prize} /></GridCell>
-                    <GridCell><Z3Boss name="kholdstare" value={bosses.kholdstare} assumed={true}
+                    <GridCell><Z3Boss name="kholdstare" value={bosses.kholdstare} assumed={assumed}
                       onComplete={this.complete} onPrize={this.prize} /></GridCell>
                   </GridRow>
                   <GridRow>
                     <GridCell><LeveledItem name="sword" value={items.sword} onClick={this.level} /></GridCell>
-                    <GridCell><Z3Boss name="vitreous" value={bosses.vitreous} assumed={true}
+                    <GridCell><Z3Boss name="vitreous" value={bosses.vitreous} assumed={assumed}
                       onComplete={this.complete} onPrize={this.prize} /></GridCell>
-                    <GridCell><Z3Boss name="trinexx" value={bosses.trinexx} assumed={true}
+                    <GridCell><Z3Boss name="trinexx" value={bosses.trinexx} assumed={assumed}
                       onComplete={this.complete} onPrize={this.prize} /></GridCell>
                   </GridRow>
                 </GridCell>
@@ -357,6 +358,16 @@
                 </GridCell>
               </GridRow>
             </React.Fragment>;
+        }
+
+        assumed() {
+            const count = _.transform(this.state.bosses,
+                (a, x) => x.prize && _.update(a, x.prize, v => (v||0) + 1));
+            return !(
+                count['crystal-red'] === 2 &&
+                count['pendant'] === 2 &&
+                count['pendant-green'] === 1
+            );
         }
 
         toggle = (name) => {
