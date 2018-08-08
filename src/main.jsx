@@ -106,7 +106,7 @@
       display: table;
     `;
     const AmmoText = OutlinedText.extend`
-      color: white;
+      color: hsl(45, 100%, ${props => 50 * (1 + (props.grade||1))}%);
       font-size: 24px;
       text-align: center;
       vertical-align: bottom;
@@ -118,11 +118,11 @@
         active={props.value}
         onClick={() => props.onClick({ raise: props.name })}
         onContextMenu={(e) => { props.onClick({ lower: props.name }); e.preventDefault(); }}>
-        {props.value ? <AmmoText>{props.value * 5}</AmmoText> : null}
+        {props.value ? <AmmoText grade={props.grade}>{props.value * 5}</AmmoText> : null}
       </TextItem>;
 
     const TankText = OutlinedText.extend`
-      color: white;
+      color: hsl(45, 100%, ${props => 50 * (1 + (props.grade||1))}%);
       font-size: 24px;
       text-align: right;
       vertical-align: bottom;
@@ -134,7 +134,7 @@
         active={props.value}
         onClick={() => props.onClick({ raise: 'tank' })}
         onContextMenu={(e) => { props.onClick({ lower: 'tank' }); e.preventDefault(); }}>
-        {props.value ? <TankText>{props.value}</TankText> : null}
+        {props.value ? <TankText grade={props.grade}>{props.value}</TankText> : null}
       </TextItem>
 
     const Prize = _styled.div`
@@ -329,7 +329,7 @@
                     <GridCell><Item name="ice" value={items.ice} onClick={this.toggle} /></GridCell>
                     <GridCell><Item name="wave" value={items.wave} onClick={this.toggle} /></GridCell>
                     <GridCell><Item name="plasma" value={items.plasma} onClick={this.toggle} /></GridCell>
-                    <GridCell><TankItem value={items.tank} onClick={this.level} /></GridCell>
+                    <GridCell><TankItem value={items.tank} grade={this.tank_grade()} onClick={this.level} /></GridCell>
                   </GridRow>
                   <GridRow>
                     <GridCell><Item name="varia" value={items.varia} onClick={this.toggle} /></GridCell>
@@ -350,7 +350,9 @@
                   <GridRow>
                     <GridCell><AmmoItem name="missile" value={items.missile} onClick={this.level} /></GridCell>
                     <GridCell><AmmoItem name="super" value={items.super} onClick={this.level} /></GridCell>
-                    <GridCell><AmmoItem name="powerbomb" value={items.powerbomb} onClick={this.level} /></GridCell>
+                    <GridCell>
+                      <AmmoItem name="powerbomb" value={items.powerbomb} grade={items.powerbomb >= 2 ? 1 : .5} onClick={this.level} />
+                    </GridCell>
                   </GridRow>
                   <GridRow>
                     <GoldenFourCell><GoldenFour value={bosses} onClick={this.complete} /></GoldenFourCell>
@@ -368,6 +370,18 @@
                 count['pendant'] === 2 &&
                 count['pendant-green'] === 1
             );
+        }
+
+        tank_grade() {
+            const mode = 'normal';
+            const tank = this.state.items.tank;
+            const grade = {
+                1: { normal: 1/3, hard: 1/4 },
+                2: { normal: 2/3, hard: 2/4 },
+                3: { normal: 3/3, hard: 3/4 },
+                4: { normal: 3/3, hard: 3/4 }
+            }[tank];
+            return grade ? grade[mode] : 1;
         }
 
         toggle = (name) => {
