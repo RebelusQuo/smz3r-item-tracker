@@ -3,32 +3,33 @@
 
     const _styled = styled.default;
 
-    const StyledItem = _styled.div`
-      width: 64px;
-      height: 64px;
-      filter: contrast(${props => props.active ? 100 : 80}%)
-              brightness(${props => props.active ? 100 : 30}%);
-    `;
-    
-    const Item = (props) =>
-      <StyledItem
-        className={classNames(props.name, props.value && `${props.name}--active`)}
-        active={props.value}
-        onClick={() => props.onClick(props.name)} />;
-
-    const LeveledItem = (props) =>
-      <StyledItem
-        className={classNames(props.name, props.value && `${props.name}--active-${props.value}`)}
-        active={props.value}
-        onClick={() => props.onClick({ raise: props.name })}
-        onContextMenu={(e) => { props.onClick({ lower: props.name }); e.preventDefault(); }} />
-
     const Slot = _styled.div`
       width: 64px;
       height: 64px;
       position: relative;
     `;
-    const SplitItem = StyledItem.extend`
+    const ActiveItem = Slot.extend`
+      filter: contrast(${props => props.active ? 100 : 80}%)
+              brightness(${props => props.active ? 100 : 30}%);
+    `;
+    const ActiveBaseItem = ActiveItem.extend`
+      position: absolute;
+    `;
+    
+    const Item = (props) =>
+      <ActiveItem
+        className={classNames(props.name, props.value && `${props.name}--active`)}
+        active={props.value}
+        onClick={() => props.onClick(props.name)} />;
+
+    const LeveledItem = (props) =>
+      <ActiveItem
+        className={classNames(props.name, props.value && `${props.name}--active-${props.value}`)}
+        active={props.value}
+        onClick={() => props.onClick({ raise: props.name })}
+        onContextMenu={(e) => { props.onClick({ lower: props.name }); e.preventDefault(); }} />
+
+    const SplitItem = ActiveItem.extend`
       width: 32px;
       position: absolute;
     `;
@@ -50,14 +51,10 @@
         </Slot>;
     }
 
-    const BaseItem = StyledItem.extend`
-      position: absolute;
-    `;
-
     const StackedItems = (props) => {
         const { top_name, top_value, bottom_name, bottom_value } = props;
         return <Slot>
-          <BaseItem
+          <ActiveBaseItem
             className={classNames(bottom_name, bottom_value && `${bottom_name}--active`)}
             active={bottom_value}
             onClick={() => props.onClick(bottom_name)} />
@@ -68,10 +65,6 @@
         </Slot>;
     }
 
-    const TextHolder = Slot.extend`
-      position: absolute;
-      display: table;
-    `;
     const OutlinedText = _styled.span`
       display: table-cell;
       font-weight: bold;
@@ -84,6 +77,11 @@
          -moz-user-select: none;
               user-select: none;
     `;
+
+    const TextHolder = Slot.extend`
+      position: absolute;
+      display: table;
+    `;
     const MedallionText = OutlinedText.extend`
       color: white;
       font-size: 18px;
@@ -95,14 +93,14 @@
       <Slot
         onClick={() => props.onClick(props.name)}
         onContextMenu={(e) => { props.onAccess(props.name); e.preventDefault(); }}>
-        <BaseItem
+        <ActiveBaseItem
           className={classNames(props.name, props.name && `${props.name}--active`)}
           active={props.value} />
         {props.access.turtle && <TextHolder><MedallionText>TR</MedallionText></TextHolder>}
         {props.access.mire && <TextHolder><MedallionText second={true}>MM</MedallionText></TextHolder>}
       </Slot>;
 
-    const TextItem = StyledItem.extend`
+    const ActiveTextItem = ActiveItem.extend`
       display: table;
     `;
     const AmmoText = OutlinedText.extend`
@@ -113,13 +111,13 @@
     `;
 
     const AmmoItem = (props) =>
-      <TextItem
+      <ActiveTextItem
         className={props.name}
         active={props.value}
         onClick={() => props.onClick({ raise: props.name })}
         onContextMenu={(e) => { props.onClick({ lower: props.name }); e.preventDefault(); }}>
         {props.value ? <AmmoText grade={props.grade}>{props.value * 5}</AmmoText> : null}
-      </TextItem>;
+      </ActiveTextItem>;
 
     const TankText = OutlinedText.extend`
       color: hsl(45, 100%, ${props => 50 * (1 + (props.grade||1))}%);
@@ -129,13 +127,13 @@
     `;
 
     const TankItem = (props) =>
-      <TextItem
+      <ActiveTextItem
         className="tank"
         active={props.value}
         onClick={() => props.onClick({ raise: 'tank' })}
         onContextMenu={(e) => { props.onClick({ lower: 'tank' }); e.preventDefault(); }}>
         {props.value ? <TankText grade={props.grade}>{props.value}</TankText> : null}
-      </TextItem>
+      </ActiveTextItem>
 
     const Prize = _styled.div`
       width: 32px;
@@ -152,7 +150,7 @@
         const name = props.name;
         const { complete, prize } = props.value;
         return <Slot>
-          <BaseItem
+          <ActiveBaseItem
             className={name}
             active={!complete}
             onClick={() => props.onComplete(name)} />
@@ -173,30 +171,26 @@
     const Statue = StyledGoldenFour.extend`
       position: absolute;
     `;
-    const RidleyTarget = _styled.div`
+    const RidleyTarget = Statue.extend`
       width: 128px;
       height: 58px;
-      position: absolute;
     `;
-    const KraidTarget = _styled.div`
+    const KraidTarget = Statue.extend`
       width: 46px;
       height: 70px;
       bottom: 0;
-      position: absolute;
     `;
-    const PhantoonTarget = _styled.div`
+    const PhantoonTarget = Statue.extend`
       width: 42px;
       height: 70px;
       left: 46px;
       bottom: 0;
-      position: absolute;
     `;
-    const DraygonTarget = _styled.div`
+    const DraygonTarget = Statue.extend`
       width: 40px;
       height: 70px;
       right: 0;
       bottom: 0;
-      position: absolute;
     `;
 
     const GoldenFour = (props) => {
