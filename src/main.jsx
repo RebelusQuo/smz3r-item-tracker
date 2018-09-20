@@ -8,11 +8,11 @@
       height: 64px;
       position: relative;
     `;
-    const ActiveItem = Slot.extend`
+    const ActiveItem = _styled(Slot)`
       filter: contrast(${props => props.active ? 100 : 80}%)
               brightness(${props => props.active ? 100 : 30}%);
     `;
-    const ActiveBaseItem = ActiveItem.extend`
+    const ActiveBaseItem = _styled(ActiveItem)`
       position: absolute;
     `;
     
@@ -29,11 +29,11 @@
         onClick={() => props.onClick({ raise: props.name })}
         onContextMenu={(e) => { props.onClick({ lower: props.name }); e.preventDefault(); }} />
 
-    const SplitItem = ActiveItem.extend`
+    const SplitItem = _styled(ActiveItem)`
       width: 32px;
       position: absolute;
     `;
-    const RightSplitItem = SplitItem.extend`
+    const RightSplitItem = _styled(SplitItem)`
       right: 0;
     `;
 
@@ -78,11 +78,11 @@
               user-select: none;
     `;
 
-    const TextHolder = Slot.extend`
+    const TextHolder = _styled(Slot)`
       position: absolute;
       display: table;
     `;
-    const MedallionText = OutlinedText.extend`
+    const MedallionText = _styled(OutlinedText)`
       color: white;
       font-size: 18px;
       text-align: ${props => props.second ? 'right' : 'left'};
@@ -100,10 +100,10 @@
         {props.access.mire && <TextHolder><MedallionText second={true}>MM</MedallionText></TextHolder>}
       </Slot>;
 
-    const ActiveTextItem = ActiveItem.extend`
+    const ActiveTextItem = _styled(ActiveItem)`
       display: table;
     `;
-    const AmmoText = OutlinedText.extend`
+    const AmmoText = _styled(OutlinedText)`
       color: hsl(45, 100%, ${props => 50 * (1 + (props.grade||1))}%);
       font-size: 24px;
       text-align: center;
@@ -119,7 +119,7 @@
         {props.value ? <AmmoText grade={props.grade}>{props.value * 5}</AmmoText> : null}
       </ActiveTextItem>;
 
-    const TankText = OutlinedText.extend`
+    const TankText = _styled(OutlinedText)`
       color: hsl(45, 100%, ${props => 50 * (1 + (props.grade||1))}%);
       font-size: 24px;
       text-align: right;
@@ -168,25 +168,25 @@
       height: 128px;
       position: relative;
     `;
-    const Statue = StyledGoldenFour.extend`
+    const Statue = _styled(StyledGoldenFour)`
       position: absolute;
     `;
-    const RidleyTarget = Statue.extend`
+    const RidleyTarget = _styled(Statue)`
       width: 128px;
       height: 58px;
     `;
-    const KraidTarget = Statue.extend`
+    const KraidTarget = _styled(Statue)`
       width: 46px;
       height: 70px;
       bottom: 0;
     `;
-    const PhantoonTarget = Statue.extend`
+    const PhantoonTarget = _styled(Statue)`
       width: 42px;
       height: 70px;
       left: 46px;
       bottom: 0;
     `;
-    const DraygonTarget = Statue.extend`
+    const DraygonTarget = _styled(Statue)`
       width: 40px;
       height: 70px;
       right: 0;
@@ -216,7 +216,7 @@
     const GridCell = _styled.div`
       position: relative; float: left;
     `;
-    const GoldenFourCell = GridCell.extend`
+    const GoldenFourCell = _styled(GridCell)`
       padding: 0 32px;
     `;
 
