@@ -228,7 +228,7 @@
             <GridCell>
               <GridRow>
                 <GridCell><Item name="bow" value={items.bow} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="somaria" value={items.somaria} onClick={onToggle} /></GridCell>
+                <GridCell><Item name="hammer" value={items.hammer} onClick={onToggle} /></GridCell>
                 <GridCell><Item name="hookshot" value={items.hookshot} onClick={onToggle} /></GridCell>
                 <GridCell>
                   <SplitItems
@@ -255,7 +255,7 @@
               </GridRow>
               <GridRow>
                 <GridCell><Item name="lamp" value={items.lamp} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="hammer" value={items.hammer} onClick={onToggle} /></GridCell>
+                <GridCell><Item name="somaria" value={items.somaria} onClick={onToggle} /></GridCell>
                 <GridCell>
                   <StackedItems
                     top_name="shovel" top_value={items.shovel}
