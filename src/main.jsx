@@ -73,9 +73,7 @@
          2px -2px black,  2px  0px black,
          2px  2px black,  0px  2px black,
         -2px  2px black, -2px  0px black;
-      -webkit-user-select: none;
-         -moz-user-select: none;
-              user-select: none;
+      user-select: none;
     `;
 
     const TextHolder = _styled(Slot)`
