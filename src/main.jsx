@@ -20,14 +20,14 @@
       <ActiveItem
         className={classNames(props.name, props.value && `${props.name}--active`)}
         active={props.value}
-        onClick={() => props.onClick(props.name)} />;
+        onClick={() => props.onToggle(props.name)} />;
 
     const LeveledItem = (props) =>
       <ActiveItem
         className={classNames(props.name, props.value && `${props.name}--active-${props.value}`)}
         active={props.value}
-        onClick={() => props.onClick({ raise: props.name })}
-        onContextMenu={(e) => { props.onClick({ lower: props.name }); e.preventDefault(); }} />
+        onClick={() => props.onLevel({ raise: props.name })}
+        onContextMenu={(e) => { props.onLevel({ lower: props.name }); e.preventDefault(); }} />
 
     const SplitItem = _styled(ActiveItem)`
       width: 32px;
@@ -43,11 +43,11 @@
           <SplitItem
             className={classNames(left_name, left_value && `${left_name}--active`)}
             active={left_value}
-            onClick={() => props.onClick(left_name)} />
+            onClick={() => props.onToggle(left_name)} />
           <RightSplitItem
             className={classNames(right_name, left_value && `${right_name}--active`)}
             active={right_value}
-            onClick={() => props.onClick(right_name)} />
+            onClick={() => props.onToggle(right_name)} />
         </Slot>;
     }
 
@@ -57,11 +57,11 @@
           <ActiveBaseItem
             className={classNames(bottom_name, bottom_value && `${bottom_name}--active`)}
             active={bottom_value}
-            onClick={() => props.onClick(bottom_name)} />
+            onClick={() => props.onToggle(bottom_name)} />
           <SplitItem
             className={classNames(top_name, top_value && `${top_name}--active`)}
             active={top_value}
-            onClick={() => props.onClick(top_name)} />
+            onClick={() => props.onToggle(top_name)} />
         </Slot>;
     }
 
@@ -89,7 +89,7 @@
 
     const MedallionItem = (props) =>
       <Slot
-        onClick={() => props.onClick(props.name)}
+        onClick={() => props.onToggle(props.name)}
         onContextMenu={(e) => { props.onAccess(props.name); e.preventDefault(); }}>
         <ActiveBaseItem
           className={classNames(props.name, props.name && `${props.name}--active`)}
@@ -112,8 +112,8 @@
       <ActiveTextItem
         className={props.name}
         active={props.value}
-        onClick={() => props.onClick({ raise: props.name })}
-        onContextMenu={(e) => { props.onClick({ lower: props.name }); e.preventDefault(); }}>
+        onClick={() => props.onLevel({ raise: props.name })}
+        onContextMenu={(e) => { props.onLevel({ lower: props.name }); e.preventDefault(); }}>
         {props.value ? <AmmoText grade={props.grade}>{props.value * 5}</AmmoText> : null}
       </ActiveTextItem>;
 
@@ -128,8 +128,8 @@
       <ActiveTextItem
         className="tank"
         active={props.value}
-        onClick={() => props.onClick({ raise: 'tank' })}
-        onContextMenu={(e) => { props.onClick({ lower: 'tank' }); e.preventDefault(); }}>
+        onClick={() => props.onLevel({ raise: 'tank' })}
+        onContextMenu={(e) => { props.onLevel({ lower: 'tank' }); e.preventDefault(); }}>
         {props.value ? <TankText grade={props.grade}>{props.value}</TankText> : null}
       </ActiveTextItem>
 
@@ -199,10 +199,10 @@
           {kraid.complete && <Statue className="golden-four---kraid" />}
           {phantoon.complete && <Statue className="golden-four---phantoon" />}
           {draygon.complete && <Statue className="golden-four---draygon" />}
-          <RidleyTarget onClick={() => props.onClick('ridley')} />
-          <KraidTarget onClick={() => props.onClick('kraid')} />
-          <PhantoonTarget onClick={() => props.onClick('phantoon')} />
-          <DraygonTarget onClick={() => props.onClick('draygon')} />
+          <RidleyTarget onClick={() => props.onComplete('ridley')} />
+          <KraidTarget onClick={() => props.onComplete('kraid')} />
+          <PhantoonTarget onClick={() => props.onComplete('phantoon')} />
+          <DraygonTarget onClick={() => props.onComplete('draygon')} />
         </StyledGoldenFour>;
     };
 
@@ -244,40 +244,40 @@
         return (
           <GridTracker>
             <GridZ3Items>
-              <Item name="bow" value={items.bow} onClick={onToggle} />
-              <Item name="hammer" value={items.hammer} onClick={onToggle} />
-              <Item name="hookshot" value={items.hookshot} onClick={onToggle} />
+              <Item name="bow" value={items.bow} onToggle={onToggle} />
+              <Item name="hammer" value={items.hammer} onToggle={onToggle} />
+              <Item name="hookshot" value={items.hookshot} onToggle={onToggle} />
               <SplitItems
                 left_name="mushroom" left_value={items.mushroom}
-                right_name="powder" right_value={items.powder} onClick={onToggle} />
-              <Item name="book" value={items.book} onClick={onToggle} />
-              <Item name="firerod" value={items.firerod} onClick={onToggle} />
-              <Item name="icerod" value={items.icerod} onClick={onToggle} />
+                right_name="powder" right_value={items.powder} onToggle={onToggle} />
+              <Item name="book" value={items.book} onToggle={onToggle} />
+              <Item name="firerod" value={items.firerod} onToggle={onToggle} />
+              <Item name="icerod" value={items.icerod} onToggle={onToggle} />
               <MedallionItem
                 name="bombos" value={items.bombos} access={medallions.bombos}
-                onClick={onToggle} onAccess={onAccess} />
+                onToggle={onToggle} onAccess={onAccess} />
               <MedallionItem
                 name="ether" value={items.ether} access={medallions.ether}
-                onClick={onToggle} onAccess={onAccess} />
+                onToggle={onToggle} onAccess={onAccess} />
               <MedallionItem
                 name="quake" value={items.quake} access={medallions.quake}
-                onClick={onToggle} onAccess={onAccess} />
-              <Item name="lamp" value={items.lamp} onClick={onToggle} />
-              <Item name="somaria" value={items.somaria} onClick={onToggle} />
+                onToggle={onToggle} onAccess={onAccess} />
+              <Item name="lamp" value={items.lamp} onToggle={onToggle} />
+              <Item name="somaria" value={items.somaria} onToggle={onToggle} />
               <StackedItems
                 top_name="shovel" top_value={items.shovel}
-                bottom_name="flute" bottom_value={items.flute} onClick={onToggle} />
+                bottom_name="flute" bottom_value={items.flute} onToggle={onToggle} />
               <StackedItems
                 top_name="byrna" top_value={items.byrna}
-                bottom_name="cape" bottom_value={items.cape} onClick={onToggle} />
-              <Item name="mirror" value={items.mirror} onClick={onToggle} />
+                bottom_name="cape" bottom_value={items.cape} onToggle={onToggle} />
+              <Item name="mirror" value={items.mirror} onToggle={onToggle} />
               <StackedItems
                 top_name="halfmagic" top_value={items.halfmagic}
-                bottom_name="bottle" bottom_value={items.bottle} onClick={onToggle} />
-              <Item name="boots" value={items.boots} onClick={onToggle} />
-              <LeveledItem name="glove" value={items.glove} onClick={onLevel} />
-              <Item name="flippers" value={items.flippers} onClick={onToggle} />
-              <Item name="moonpearl" value={items.moonpearl} onClick={onToggle} />
+                bottom_name="bottle" bottom_value={items.bottle} onToggle={onToggle} />
+              <Item name="boots" value={items.boots} onToggle={onToggle} />
+              <LeveledItem name="glove" value={items.glove} onLevel={onLevel} />
+              <Item name="flippers" value={items.flippers} onToggle={onToggle} />
+              <Item name="moonpearl" value={items.moonpearl} onToggle={onToggle} />
             </GridZ3Items>
             <GridZ3Bosses>
               <Z3Boss name="armos" value={bosses.armos} assumed={assumed}
@@ -292,40 +292,40 @@
                 onComplete={onComplete} onPrize={onPrize} />
               <Z3Boss name="mothula" value={bosses.mothula} assumed={assumed}
                 onComplete={onComplete} onPrize={onPrize} />
-              <Item name="agahnim" value={items.agahnim} onClick={onToggle} />
+              <Item name="agahnim" value={items.agahnim} onToggle={onToggle} />
               <Z3Boss name="blind" value={bosses.blind} assumed={assumed}
                 onComplete={onComplete} onPrize={onPrize} />
               <Z3Boss name="kholdstare" value={bosses.kholdstare} assumed={assumed}
                 onComplete={onComplete} onPrize={onPrize} />
-              <LeveledItem name="sword" value={items.sword} onClick={onLevel} />
+              <LeveledItem name="sword" value={items.sword} onLevel={onLevel} />
               <Z3Boss name="vitreous" value={bosses.vitreous} assumed={assumed}
                 onComplete={onComplete} onPrize={onPrize} />
               <Z3Boss name="trinexx" value={bosses.trinexx} assumed={assumed}
                 onComplete={onComplete} onPrize={onPrize} />
             </GridZ3Bosses>
             <GridSmItems>
-              <Item name="charge" value={items.charge} onClick={onToggle} />
-              <Item name="ice" value={items.ice} onClick={onToggle} />
-              <Item name="wave" value={items.wave} onClick={onToggle} />
-              <Item name="plasma" value={items.plasma} onClick={onToggle} />
-              <TankItem value={items.tank} grade={tank_grade} onClick={onLevel} />
-              <Item name="varia" value={items.varia} onClick={onToggle} />
-              <Item name="morph" value={items.morph} onClick={onToggle} />
-              <Item name="spring" value={items.spring} onClick={onToggle} />
-              <Item name="hijump" value={items.hijump} onClick={onToggle} />
-              <Item name="speed" value={items.speed} onClick={onToggle} />
-              <Item name="gravity" value={items.gravity} onClick={onToggle} />
-              <Item name="bomb" value={items.bomb} onClick={onToggle} />
-              <Item name="screw" value={items.screw} onClick={onToggle} />
-              <Item name="space" value={items.space} onClick={onToggle} />
-              <Item name="grapple" value={items.grapple} onClick={onToggle} />
+              <Item name="charge" value={items.charge} onToggle={onToggle} />
+              <Item name="ice" value={items.ice} onToggle={onToggle} />
+              <Item name="wave" value={items.wave} onToggle={onToggle} />
+              <Item name="plasma" value={items.plasma} onToggle={onToggle} />
+              <TankItem value={items.tank} grade={tank_grade} onLevel={onLevel} />
+              <Item name="varia" value={items.varia} onToggle={onToggle} />
+              <Item name="morph" value={items.morph} onToggle={onToggle} />
+              <Item name="spring" value={items.spring} onToggle={onToggle} />
+              <Item name="hijump" value={items.hijump} onToggle={onToggle} />
+              <Item name="speed" value={items.speed} onToggle={onToggle} />
+              <Item name="gravity" value={items.gravity} onToggle={onToggle} />
+              <Item name="bomb" value={items.bomb} onToggle={onToggle} />
+              <Item name="screw" value={items.screw} onToggle={onToggle} />
+              <Item name="space" value={items.space} onToggle={onToggle} />
+              <Item name="grapple" value={items.grapple} onToggle={onToggle} />
             </GridSmItems>
             <GridSmBosses>
-              <AmmoItem name="missile" value={items.missile} onClick={onLevel} />
-              <AmmoItem name="super" value={items.super} onClick={onLevel} />
-              <AmmoItem name="powerbomb" value={items.powerbomb} grade={powerbomb_grade} onClick={onLevel} />
+              <AmmoItem name="missile" value={items.missile} onLevel={onLevel} />
+              <AmmoItem name="super" value={items.super} onLevel={onLevel} />
+              <AmmoItem name="powerbomb" value={items.powerbomb} grade={powerbomb_grade} onLevel={onLevel} />
               <GridItemGoldenFour>
-                <GoldenFour value={bosses} onClick={onComplete} />
+                <GoldenFour value={bosses} onComplete={onComplete} />
               </GridItemGoldenFour>
             </GridSmBosses>
           </GridTracker>
