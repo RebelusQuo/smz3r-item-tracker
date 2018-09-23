@@ -206,147 +206,130 @@
         </StyledGoldenFour>;
     };
 
-    const GridRow = _styled.div`
-      &:before,
-      &:after { content: " "; display: table; }
-      &:after { clear: both; }
+    const GridTracker = _styled.div`
+      display: grid;
+      grid-template-columns: repeat(2, min-content);
+      grid-template-rows: repeat(2, min-content);
     `;
-    const GridCell = _styled.div`
-      position: relative; float: left;
+    const GridZ3Items = _styled.div`
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
     `;
-    const GoldenFourCell = _styled(GridCell)`
-      padding: 0 32px;
+    const GridZ3Bosses = _styled.div`
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+    `;
+    const GridSmItems = _styled.div`
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+    `;
+    const GridSmBosses = _styled.div`
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+    `;
+    const GridItemGoldenFour = _styled.div`
+      grid-column: 1 / -1;
+      grid-row: 2 / -1;
+      display: flex;
+      justify-content: center;
     `;
 
     const Tracker = (props) => {
         const { items, bosses, medallions, assumed, tank_grade, powerbomb_grade } = props;
         const { onToggle, onLevel, onComplete, onPrize, onAccess } = props;
-        return <React.Fragment>
-          <GridRow>
-            <GridCell>
-              <GridRow>
-                <GridCell><Item name="bow" value={items.bow} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="hammer" value={items.hammer} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="hookshot" value={items.hookshot} onClick={onToggle} /></GridCell>
-                <GridCell>
-                  <SplitItems
-                    left_name="mushroom" left_value={items.mushroom}
-                    right_name="powder" right_value={items.powder} onClick={onToggle} />
-                </GridCell>
-                <GridCell><Item name="book" value={items.book} onClick={onToggle} /></GridCell>
-              </GridRow>
-              <GridRow>
-                <GridCell><Item name="firerod" value={items.firerod} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="icerod" value={items.icerod} onClick={onToggle} /></GridCell>
-                <GridCell>
-                  <MedallionItem
-                    name="bombos" value={items.bombos} access={medallions.bombos}
-                    onClick={onToggle} onAccess={onAccess} /></GridCell>
-                <GridCell>
-                  <MedallionItem
-                    name="ether" value={items.ether} access={medallions.ether}
-                    onClick={onToggle} onAccess={onAccess} /></GridCell>
-                <GridCell>
-                  <MedallionItem
-                    name="quake" value={items.quake} access={medallions.quake}
-                    onClick={onToggle} onAccess={onAccess} /></GridCell>
-              </GridRow>
-              <GridRow>
-                <GridCell><Item name="lamp" value={items.lamp} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="somaria" value={items.somaria} onClick={onToggle} /></GridCell>
-                <GridCell>
-                  <StackedItems
-                    top_name="shovel" top_value={items.shovel}
-                    bottom_name="flute" bottom_value={items.flute} onClick={onToggle} />
-                </GridCell>
-                <GridCell><StackedItems
-                  top_name="byrna" top_value={items.byrna}
-                  bottom_name="cape" bottom_value={items.cape} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="mirror" value={items.mirror} onClick={onToggle} /></GridCell>
-              </GridRow>
-              <GridRow>
-                <GridCell>
-                  <StackedItems
-                    top_name="halfmagic" top_value={items.halfmagic}
-                    bottom_name="bottle" bottom_value={items.bottle} onClick={onToggle} />
-                </GridCell>
-                <GridCell><Item name="boots" value={items.boots} onClick={onToggle} /></GridCell>
-                <GridCell><LeveledItem name="glove" value={items.glove} onClick={onLevel} /></GridCell>
-                <GridCell><Item name="flippers" value={items.flippers} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="moonpearl" value={items.moonpearl} onClick={onToggle} /></GridCell>
-              </GridRow>
-            </GridCell>
-            <GridCell>
-              <GridRow>
-                <GridCell><Z3Boss name="armos" value={bosses.armos} assumed={assumed}
-                  onComplete={onComplete} onPrize={onPrize} /></GridCell>
-                <GridCell><Z3Boss name="lanmolas" value={bosses.lanmolas} assumed={assumed}
-                  onComplete={onComplete} onPrize={onPrize} /></GridCell>
-                <GridCell><Z3Boss name="moldorm" value={bosses.moldorm} assumed={assumed}
-                  onComplete={onComplete} onPrize={onPrize} /></GridCell>
-              </GridRow>
-              <GridRow>
-                <GridCell><Z3Boss name="helmasaur" value={bosses.helmasaur} assumed={assumed}
-                  onComplete={onComplete} onPrize={onPrize} /></GridCell>
-                <GridCell><Z3Boss name="arrghus" value={bosses.arrghus} assumed={assumed}
-                  onComplete={onComplete} onPrize={onPrize} /></GridCell>
-                <GridCell><Z3Boss name="mothula" value={bosses.mothula} assumed={assumed}
-                  onComplete={onComplete} onPrize={onPrize} /></GridCell>
-              </GridRow>
-              <GridRow>
-                <GridCell><Item name="agahnim" value={items.agahnim} onClick={onToggle} /></GridCell>
-                <GridCell><Z3Boss name="blind" value={bosses.blind} assumed={assumed}
-                  onComplete={onComplete} onPrize={onPrize} /></GridCell>
-                <GridCell><Z3Boss name="kholdstare" value={bosses.kholdstare} assumed={assumed}
-                  onComplete={onComplete} onPrize={onPrize} /></GridCell>
-              </GridRow>
-              <GridRow>
-                <GridCell><LeveledItem name="sword" value={items.sword} onClick={onLevel} /></GridCell>
-                <GridCell><Z3Boss name="vitreous" value={bosses.vitreous} assumed={assumed}
-                  onComplete={onComplete} onPrize={onPrize} /></GridCell>
-                <GridCell><Z3Boss name="trinexx" value={bosses.trinexx} assumed={assumed}
-                  onComplete={onComplete} onPrize={onPrize} /></GridCell>
-              </GridRow>
-            </GridCell>
-          </GridRow>
-          <GridRow>
-            <GridCell>
-              <GridRow>
-                <GridCell><Item name="charge" value={items.charge} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="ice" value={items.ice} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="wave" value={items.wave} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="plasma" value={items.plasma} onClick={onToggle} /></GridCell>
-                <GridCell><TankItem value={items.tank} grade={tank_grade} onClick={onLevel} /></GridCell>
-              </GridRow>
-              <GridRow>
-                <GridCell><Item name="varia" value={items.varia} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="morph" value={items.morph} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="spring" value={items.spring} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="hijump" value={items.hijump} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="speed" value={items.speed} onClick={onToggle} /></GridCell>
-              </GridRow>
-              <GridRow>
-                <GridCell><Item name="gravity" value={items.gravity} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="bomb" value={items.bomb} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="screw" value={items.screw} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="space" value={items.space} onClick={onToggle} /></GridCell>
-                <GridCell><Item name="grapple" value={items.grapple} onClick={onToggle} /></GridCell>
-              </GridRow>
-            </GridCell>
-            <GridCell>
-              <GridRow>
-                <GridCell><AmmoItem name="missile" value={items.missile} onClick={onLevel} /></GridCell>
-                <GridCell><AmmoItem name="super" value={items.super} onClick={onLevel} /></GridCell>
-                <GridCell>
-                  <AmmoItem name="powerbomb" value={items.powerbomb} grade={powerbomb_grade} onClick={onLevel} />
-                </GridCell>
-              </GridRow>
-              <GridRow>
-                <GoldenFourCell><GoldenFour value={bosses} onClick={onComplete} /></GoldenFourCell>
-              </GridRow>
-            </GridCell>
-          </GridRow>
-        </React.Fragment>;
+        return (
+          <GridTracker>
+            <GridZ3Items>
+              <Item name="bow" value={items.bow} onClick={onToggle} />
+              <Item name="hammer" value={items.hammer} onClick={onToggle} />
+              <Item name="hookshot" value={items.hookshot} onClick={onToggle} />
+              <SplitItems
+                left_name="mushroom" left_value={items.mushroom}
+                right_name="powder" right_value={items.powder} onClick={onToggle} />
+              <Item name="book" value={items.book} onClick={onToggle} />
+              <Item name="firerod" value={items.firerod} onClick={onToggle} />
+              <Item name="icerod" value={items.icerod} onClick={onToggle} />
+              <MedallionItem
+                name="bombos" value={items.bombos} access={medallions.bombos}
+                onClick={onToggle} onAccess={onAccess} />
+              <MedallionItem
+                name="ether" value={items.ether} access={medallions.ether}
+                onClick={onToggle} onAccess={onAccess} />
+              <MedallionItem
+                name="quake" value={items.quake} access={medallions.quake}
+                onClick={onToggle} onAccess={onAccess} />
+              <Item name="lamp" value={items.lamp} onClick={onToggle} />
+              <Item name="somaria" value={items.somaria} onClick={onToggle} />
+              <StackedItems
+                top_name="shovel" top_value={items.shovel}
+                bottom_name="flute" bottom_value={items.flute} onClick={onToggle} />
+              <StackedItems
+                top_name="byrna" top_value={items.byrna}
+                bottom_name="cape" bottom_value={items.cape} onClick={onToggle} />
+              <Item name="mirror" value={items.mirror} onClick={onToggle} />
+              <StackedItems
+                top_name="halfmagic" top_value={items.halfmagic}
+                bottom_name="bottle" bottom_value={items.bottle} onClick={onToggle} />
+              <Item name="boots" value={items.boots} onClick={onToggle} />
+              <LeveledItem name="glove" value={items.glove} onClick={onLevel} />
+              <Item name="flippers" value={items.flippers} onClick={onToggle} />
+              <Item name="moonpearl" value={items.moonpearl} onClick={onToggle} />
+            </GridZ3Items>
+            <GridZ3Bosses>
+              <Z3Boss name="armos" value={bosses.armos} assumed={assumed}
+                onComplete={onComplete} onPrize={onPrize} />
+              <Z3Boss name="lanmolas" value={bosses.lanmolas} assumed={assumed}
+                onComplete={onComplete} onPrize={onPrize} />
+              <Z3Boss name="moldorm" value={bosses.moldorm} assumed={assumed}
+                onComplete={onComplete} onPrize={onPrize} />
+              <Z3Boss name="helmasaur" value={bosses.helmasaur} assumed={assumed}
+                onComplete={onComplete} onPrize={onPrize} />
+              <Z3Boss name="arrghus" value={bosses.arrghus} assumed={assumed}
+                onComplete={onComplete} onPrize={onPrize} />
+              <Z3Boss name="mothula" value={bosses.mothula} assumed={assumed}
+                onComplete={onComplete} onPrize={onPrize} />
+              <Item name="agahnim" value={items.agahnim} onClick={onToggle} />
+              <Z3Boss name="blind" value={bosses.blind} assumed={assumed}
+                onComplete={onComplete} onPrize={onPrize} />
+              <Z3Boss name="kholdstare" value={bosses.kholdstare} assumed={assumed}
+                onComplete={onComplete} onPrize={onPrize} />
+              <LeveledItem name="sword" value={items.sword} onClick={onLevel} />
+              <Z3Boss name="vitreous" value={bosses.vitreous} assumed={assumed}
+                onComplete={onComplete} onPrize={onPrize} />
+              <Z3Boss name="trinexx" value={bosses.trinexx} assumed={assumed}
+                onComplete={onComplete} onPrize={onPrize} />
+            </GridZ3Bosses>
+            <GridSmItems>
+              <Item name="charge" value={items.charge} onClick={onToggle} />
+              <Item name="ice" value={items.ice} onClick={onToggle} />
+              <Item name="wave" value={items.wave} onClick={onToggle} />
+              <Item name="plasma" value={items.plasma} onClick={onToggle} />
+              <TankItem value={items.tank} grade={tank_grade} onClick={onLevel} />
+              <Item name="varia" value={items.varia} onClick={onToggle} />
+              <Item name="morph" value={items.morph} onClick={onToggle} />
+              <Item name="spring" value={items.spring} onClick={onToggle} />
+              <Item name="hijump" value={items.hijump} onClick={onToggle} />
+              <Item name="speed" value={items.speed} onClick={onToggle} />
+              <Item name="gravity" value={items.gravity} onClick={onToggle} />
+              <Item name="bomb" value={items.bomb} onClick={onToggle} />
+              <Item name="screw" value={items.screw} onClick={onToggle} />
+              <Item name="space" value={items.space} onClick={onToggle} />
+              <Item name="grapple" value={items.grapple} onClick={onToggle} />
+            </GridSmItems>
+            <GridSmBosses>
+              <AmmoItem name="missile" value={items.missile} onClick={onLevel} />
+              <AmmoItem name="super" value={items.super} onClick={onLevel} />
+              <AmmoItem name="powerbomb" value={items.powerbomb} grade={powerbomb_grade} onClick={onLevel} />
+              <GridItemGoldenFour>
+                <GoldenFour value={bosses} onClick={onComplete} />
+              </GridItemGoldenFour>
+            </GridSmBosses>
+          </GridTracker>
+        );
     };
 
     class App extends React.Component {
