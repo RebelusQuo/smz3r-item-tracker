@@ -219,7 +219,7 @@
     `;
 
     const Tracker = (props) => {
-        const { items, bosses, medallions, assumed, tank_grade } = props;
+        const { items, bosses, medallions, assumed, tank_grade, powerbomb_grade } = props;
         const { onToggle, onLevel, onComplete, onPrize, onAccess } = props;
         return <React.Fragment>
           <GridRow>
@@ -338,7 +338,7 @@
                 <GridCell><AmmoItem name="missile" value={items.missile} onClick={onLevel} /></GridCell>
                 <GridCell><AmmoItem name="super" value={items.super} onClick={onLevel} /></GridCell>
                 <GridCell>
-                  <AmmoItem name="powerbomb" value={items.powerbomb} grade={items.powerbomb >= 2 ? 1 : .5} onClick={onLevel} />
+                  <AmmoItem name="powerbomb" value={items.powerbomb} grade={powerbomb_grade} onClick={onLevel} />
                 </GridCell>
               </GridRow>
               <GridRow>
@@ -356,6 +356,7 @@
             return <Tracker {...this.state}
               assumed={this.assumed()}
               tank_grade={this.tank_grade()}
+              powerbomb_grade={this.powerbomb_grade()}
               onToggle={this.toggle}
               onLevel={this.level}
               onComplete={this.complete}
@@ -383,6 +384,10 @@
                 4: { normal: 3/3, hard: 3/4 }
             }[tank];
             return grade ? grade[mode] : 1;
+        }
+
+        powerbomb_grade() {
+            return this.state.items.powerbomb >= 2 ? 1 : .5
         }
 
         toggle = (name) => {
